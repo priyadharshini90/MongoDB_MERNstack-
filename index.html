@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Flight Ticket Booking</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Flight Ticket Booking</h1>
+        <div class="form-container">
+            <div class="trip-type">
+                <button class="active">ROUND TRIP</button>
+                <button>ONE WAY</button>
+                <button>MULTI CITY</button>
+            </div>
+            <form id="booking-form">
+                <!-- From input with options -->
+                <div class="form-group">
+                    <label for="from">From</label>
+                    <input type="text" id="from" placeholder="Type Departure City" list="city-options" required>
+                    <datalist id="city-options">
+                        <option value="Chennai">
+                        <option value="Coimbatore">
+                        <option value="Trichy">
+                        <option value="Banglore">
+                        <option value="Hyderabad">
+                        <option value="Tuticorin">
+                        <option value="Vellore">
+                        <option value="Salem">
+                        
+                    </datalist>
+                </div>
+
+                <!-- To input with options -->
+                <div class="form-group">
+                    <label for="to">To</label>
+                    <input type="text" id="to" placeholder="Type Destination City" list="city-options" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="depart">Departure date</label>
+                    <input type="date" id="depart" required>
+                </div>
+                <div class="form-group">
+                    <label for="return">Return date</label>
+                    <input type="date" id="return">
+                </div>
+                <div class="form-group">
+                    <label for="class">Class</label>
+                    <select id="class">
+                        <option value="economy">Economy</option>
+                        <option value="business">Business</option>
+                        <option value="first">First Class</option>
+                    </select>
+                </div>
+                <div class="passenger-count">
+                    <div>
+                        <label>Adult (12+ yrs)</label>
+                        <button type="button" onclick="changeCount('adult', -1)">-</button>
+                        <span id="adult-count">1</span>
+                        <button type="button" onclick="changeCount('adult', 1)">+</button>
+                    </div>
+                    <div>
+                        <label>Child (2-11 yrs)</label>
+                        <button type="button" onclick="changeCount('child', -1)">-</button>
+                        <span id="child-count">0</span>
+                        <button type="button" onclick="changeCount('child', 1)">+</button>
+                    </div>
+                </div>
+                <button type="submit">Search Flights</button>
+            </form>
+        </div>
+
+        <!-- Hide this section initially -->
+        <div class="available-flights" style="display: none;">
+            <h2>Available Flights</h2>
+        
+            <div class="flight-option">
+                <div class="flight-info">
+                    <p><strong>Airline:</strong> Airline A</p>
+                    <p><strong>Price:</strong> $200</p>
+                    <p><strong>Duration:</strong> 3h 45m</p>
+                    <p><strong>Departure:</strong> 10:00 AM</p>
+                </div>
+                <button class="select-flight">Select</button>
+            </div>
+
+            <div class="flight-option">
+                <div class="flight-info">
+                    <p><strong>Airline:</strong> Airline B</p>
+                    <p><strong>Price:</strong> $180</p>
+                    <p><strong>Duration:</strong> 4h 10m</p>
+                    <p><strong>Departure:</strong> 12:00 PM</p>
+                </div>
+                <button class="select-flight">Select</button>
+            </div>
+
+            <div class="flight-option">
+                <div class="flight-info">
+                    <p><strong>Airline:</strong> Airline C</p>
+                    <p><strong>Price:</strong> $220</p>
+                    <p><strong>Duration:</strong> 5h 00m (1 Stop)</p>
+                    <p><strong>Departure:</strong> 8:30 AM</p>
+                </div>
+                <button class="select-flight">Select</button>
+            </div>
+        </div>
+        <div class="seat-map" style="display: none;">
+            <h2>Select Your Seat</h2>
+            <p><strong>Business Class Cabin</strong></p>
+            <div class="seats">
+                <!-- Example Seat Map -->
+                <div class="row">
+                    <div class="seat available" data-seat-type="window-extra-legroom">1A</div>
+                    <div class="seat available">1B</div>
+                    <div class="seat available">1C</div>
+                </div>
+                <div class="row">
+                    <div class="seat available" data-seat-type="window-extra-legroom">2A</div>
+                    <div class="seat booked">2B</div>
+                    <div class="seat available">2C</div>
+                </div>
+                <div class="row">
+                    <div class="seat available" data-seat-type="window">3A</div>
+                    <div class="seat available">3B</div>
+                    <div class="seat available">3C</div>
+                </div>
+                <button class="book-tickets">Book </button>
+            </div>
+        </div>
+        
+            
+            
+            <!-- Payment Form -->
+            <div class="payment-section" style="display: none;">
+                <h1>Payment Information</h1>
+                <h3>Secure Payment</h3>
+                <form id="payment-form">
+                    <div class="form-group">
+                        <label for="card-number">Card Number</label>
+                        <input type="text" id="card-number" placeholder="Enter your card number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="expiry-date">Expiry Date</label>
+                        <input type="text" id="expiry-date" placeholder="MM/YY" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cvv">CVV</label>
+                        <input type="password" id="cvv" placeholder="Enter CVV" required>
+                    </div>
+                    <button type="submit">Pay Now</button>
+                </form>
+            </div>
+    
+            <!-- Confirmation Section (Hidden Initially) -->
+            <div class="confirmation-section" style="display: none;">
+                <h2>Booking Confirmation</h2>
+                <p>Thank you for your payment!</p>
+                <p><strong>Booking Reference:</strong> <span id="booking-ref">#123456789</span></p>
+                <p><strong>E-Ticket:</strong> <span id="e-ticket">ETK123456789</span></p>
+                <h3>Itinerary Details</h3>
+                <p><strong>Flight:</strong> Airline A</p>
+                <p><strong>Departure:</strong> 10:00 AM, 22nd Oct 2024</p>
+                <p><strong>Arrival:</strong> 1:45 PM, 22nd Oct 2024</p>
+            </div>
+    
+            <footer>
+                <p>© 2024 Flight Ticket Booking. All Rights Reserved</p>
+            </footer>
+        </div>
+    
+
+        <footer>
+            <p>© 2016 Flight Ticket Booking. All Rights Reserved | Design by W3layouts</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
